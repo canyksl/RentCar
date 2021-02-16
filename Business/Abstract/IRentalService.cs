@@ -9,6 +9,6 @@ namespace Business.Abstract
 {
     public interface IRentalService:IService<Rental>
     {
-        IDataResult<List<CarRentalDetailDto>> GetProductDetails();
+        IDataResult<List<CarRentalDetailDto>> GetRentalDetails();
     }
 }
