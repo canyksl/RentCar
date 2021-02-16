@@ -7,13 +7,7 @@ using Entity.Concrete;
 
 namespace Business.Abstract
 {
-    public interface ICarService
+    public interface ICarService:IService<Car>
     {
-        IResult Add(Car car);
-        IResult Delete(Car car);
-        IResult Update(Car car);
-        IDataResult<List<Car>> GetAll();
-        IDataResult<Car> GetById(int id);
-        IDataResult<List<CarDetailDto>> GetCarDetails();
     }
 }
