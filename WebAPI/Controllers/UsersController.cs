@@ -11,18 +11,18 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        ICustomerService _customerService;
+        IUserService _userService;
 
-        public CustomerController(ICustomerService customerService)
+        public UsersController(IUserService userService)
         {
-            _customerService = customerService;
+            _userService = userService;
         }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _customerService.GetAll();
+            var result = _userService.GetAll();
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _customerService.GetById(id);
+            var result = _userService.GetById(id);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -40,9 +40,9 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("add")]
-        public IActionResult Add(Customer customer)
+        public IActionResult Add(User user)
         {
-            var result =_customerService.Add(customer);
+            var result = _userService.Add(user);
             if (result.Success)
             {
                 return Ok(result.Message);
@@ -50,9 +50,9 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("update")]
-        public IActionResult Update(Customer customer)
+        public IActionResult Update(User user)
         {
-            var result = _customerService.Update(customer);
+            var result = _userService.Update(user);
             if (result.Success)
             {
                 return Ok(result.Message);
@@ -60,9 +60,9 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("delete")]
-        public IActionResult Delete(Customer customer)
+        public IActionResult Delete(User user)
         {
-            var result = _customerService.Delete(customer);
+            var result = _userService.Delete(user);
             if (result.Success)
             {
                 return Ok(result.Message);

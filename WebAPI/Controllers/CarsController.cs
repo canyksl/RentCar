@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
+using Entity.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,18 +11,28 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class CarsController : ControllerBase
     {
-        IUserService _userService;
+        ICarService _carService;
 
-        public UserController(IUserService userService)
+        public CarsController(ICarService carService)
         {
-            _userService = userService;
+            _carService = carService;
         }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _userService.GetAll();
+            var result = _carService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
+        }
+        [HttpGet("cardetail")]
+        public IActionResult GetCarDetails()
+        {
+            var result = _carService.GetCarDetails();
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -32,7 +42,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _userService.GetById(id);
+            var result = _carService.GetById(id);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -40,19 +50,19 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("add")]
-        public IActionResult Add(User user)
+        public IActionResult Add(Car car)
         {
-            var result = _userService.Add(user);
+            var result = _carService.Add(car);
             if (result.Success)
             {
                 return Ok(result.Message);
             }
             return BadRequest(result.Message);
         }
-        [HttpPost("update")]
-        public IActionResult Update(User user)
+       [HttpPost("update")]
+       public IActionResult Update(Car car)
         {
-            var result = _userService.Update(user);
+            var result = _carService.Update(car);
             if (result.Success)
             {
                 return Ok(result.Message);
@@ -60,9 +70,9 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("delete")]
-        public IActionResult Delete(User user)
+        public IActionResult Delete(Car car)
         {
-            var result = _userService.Delete(user);
+            var result = _carService.Delete(car);
             if (result.Success)
             {
                 return Ok(result.Message);
