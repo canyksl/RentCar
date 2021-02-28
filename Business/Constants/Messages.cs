@@ -8,7 +8,9 @@ namespace Business.Constants
     {
         public static string CarAdded = "Araba Eklendi";
         public static string CarNameInvalid = "Araba ismi geçersiz";
-        internal static string MaintenanceTime = "Sistem bakımda";
-        internal static string CarListed = "Araba Listelendi";
+        public static string MaintenanceTime = "Sistem bakımda";
+        public static string CarListed = "Araba Listelendi";
+        public static string Error="Başarısız";
+        public static string Success="Başarılı";
     }
 }
