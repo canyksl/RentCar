@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -12,5 +13,6 @@ namespace Business.Constants
         public static string CarListed = "Araba Listelendi";
         public static string Error="Başarısız";
         public static string Success="Başarılı";
+        public static string AuthorizationDenied="Yetkiniz yok";
     }
 }
