@@ -7,6 +7,7 @@ using Core.Utilities.Interceptors;
 using Core.Utilities.Security.Jwt;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
+using DataAccess.Concrete.Entity_Framework;
 using DataAccess.Concrete.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
+            builder.RegisterType<CreditCardManager>().As<ICreditCardService>();
+            builder.RegisterType<EFCreditCardDal>().As<ICreditCardDal>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

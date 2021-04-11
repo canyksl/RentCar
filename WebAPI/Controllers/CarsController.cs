@@ -35,9 +35,9 @@ namespace WebAPI.Controllers
             var result = _carService.GetCarDetails();
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
@@ -78,6 +78,16 @@ namespace WebAPI.Controllers
                 return Ok(result.Message);
             }
             return BadRequest(result.Message);
+        }
+        [HttpGet("getcardetail")]
+        public IActionResult GetCarDetail(int id)
+        {
+            var result = _carService.GetCarDetail(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

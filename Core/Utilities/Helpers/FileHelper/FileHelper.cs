@@ -7,59 +7,75 @@ using Microsoft.AspNetCore.Http;
 
 namespace Core.Utilities.Helpers.FileHelper
 {
-    public class FileHelper
-    {
-        public static string Add(IFormFile file)
+    
+        public class FileHelper
         {
-            var sourcepath = Path.GetTempFileName();
-            if (file.Length > 0)
+            public static string Add(IFormFile file)
             {
-                using (var uploading = new FileStream(sourcepath, FileMode.Create))
+                var result = newPath(file);
+                try
                 {
-                    file.CopyTo(uploading);
+                    var sourcePath = Path.GetTempFileName();
+                    if (file.Length > 0)
+                        using (var stream = new FileStream(sourcePath, FileMode.Create))
+                            file.CopyTo(stream);
+                    File.Move(sourcePath, result.newPath);
                 }
-            }
-            var result = newPath(file);
-            File.Move(sourcepath, result);
-            return result;
-        }
-        public static IResult Delete(string path)
-        {
-            try
-            {
-                File.Delete(path);
-            }
-            catch (Exception exception)
-            {
-                return new ErrorResult(exception.Message);
-            }
-
-            return new SuccessResult();
-        }
-        public static string Update(string sourcePath, IFormFile file)
-        {
-            var result = newPath(file).ToString();
-            if (sourcePath.Length > 0)
-            {
-                using (var stream = new FileStream(result, FileMode.Create))
+                catch (Exception exception)
                 {
-                    file.CopyTo(stream);
+                    return exception.Message;
                 }
+                return result.Path2;
             }
-            File.Delete(sourcePath);
-            return result;
+
+            public static string Update(string sourcePath, IFormFile file)
+            {
+                var result = newPath(file);
+                try
+                {
+                    if (sourcePath.Length > 0)
+                    {
+                        using (var stream = new FileStream(result.newPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                    }
+                    File.Delete(sourcePath);
+                }
+                catch (Exception exception)
+                {
+                    return exception.Message;
+                }
+                return result.Path2;
+            }
+
+            public static IResult Delete(string path)
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception exception)
+                {
+                    return new ErrorResult(exception.Message);
+                }
+
+                return new SuccessResult();
+            }
+
+            public static (string newPath, string Path2) newPath(IFormFile file)
+            {
+                FileInfo ff = new FileInfo(file.FileName);
+                string fileExtension = ff.Extension;
+
+                var newPath = Guid.NewGuid() + fileExtension;
+
+
+                string path = Environment.CurrentDirectory + @"\wwwroot\uploads";
+
+                string result = $@"{path}\{newPath}";
+
+                return (result, $"\\uploads\\{newPath}");
+            }
         }
-        public static string newPath(IFormFile file)
-        {
-            FileInfo ff = new FileInfo(file.FileName);
-            string fileExtension = ff.Extension;
-
-            string path = Environment.CurrentDirectory + @"\wwwroot\uploads";
-            var newPath = Guid.NewGuid().ToString() + fileExtension;
-
-            string result = $@"{path}\{newPath}";
-            return result;
-        }
-
     }
-}
